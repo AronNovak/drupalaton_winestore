@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ *   commerce_uuid.module
+ *
+ *   This module doesn't do anything itself as its all in the sub modules.
+ */

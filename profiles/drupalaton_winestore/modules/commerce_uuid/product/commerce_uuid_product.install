@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Include some helper functions for the Entity API.
+ */
+module_load_include('inc', 'uuid', 'uuid.entity');
+
+/**
+ * Implements of hook_schema_alter().
+*/
+function commerce_uuid_product_schema_alter(&$schema = array()) {
+  $field = uuid_schema_field_definition();
+  $schema['commerce_product']['fields']['uuid'] = $field;
+  $schema['commerce_product_revision']['fields']['vuuid'] = $field;
+}
+
+/**
+ * Implements hook_install().
+ */
+function commerce_uuid_product_install() {
+  $field = uuid_schema_field_definition();
+
+  if (!db_field_exists('commerce_product', 'uuid')) {
+    db_add_field('commerce_product', 'uuid', $field);
+    db_add_index('commerce_product', 'uuid', array('uuid'));
+  }
+
+  if (!db_field_exists('commerce_product_revision', 'vuuid')) {
+    db_add_field('commerce_product_revision', 'vuuid', $field);
+    db_add_index('commerce_product_revision', 'vuuid', array('vuuid'));
+  }
+
+  uuid_sync_all();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_uuid_product_uninstall() {
+  if (db_field_exists('commerce_product', 'uuid')) {
+    db_drop_field('commerce_product', 'uuid');
+    db_drop_index('commerce_product', 'uuid');
+  }
+
+  if (db_field_exists('commerce_product_revision', 'vuuid')) {
+    db_drop_field('commerce_product_revision', 'vuuid');
+    db_drop_index('commerce_product_revision', 'vuuid');
+  }
+}

@@ -1,0 +1,13 @@
+name = Commerce UUID Customer
+description = Adds universally unique identifiers support to commerce customer profiles.
+core = 7.x
+package = UUID
+
+dependencies[] = commerce_uuid
+dependencies[] = commerce_customer
+; Information added by drupal.org packaging script on 2013-04-26
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "commerce_uuid"
+datestamp = "1366980332"
+

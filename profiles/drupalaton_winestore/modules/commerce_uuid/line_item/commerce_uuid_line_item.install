@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Include some helper functions for the Entity API.
+ */
+module_load_include('inc', 'uuid', 'uuid.entity');
+
+/**
+ * Implements of hook_schema_alter().
+*/
+function commerce_uuid_line_item_schema_alter(&$schema = array()) {
+  $field = uuid_schema_field_definition();
+  $schema['commerce_line_item']['fields']['uuid'] = $field;
+}
+
+/**
+ * Implements hook_install().
+ */
+function commerce_uuid_line_item_install() {
+  $field = uuid_schema_field_definition();
+
+  if (!db_field_exists('commerce_line_item', 'uuid')) {
+    db_add_field('commerce_line_item', 'uuid', $field);
+    db_add_index('commerce_line_item', 'uuid', array('uuid'));
+  }
+
+  uuid_sync_all();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_uuid_line_item_uninstall() {
+  if (db_field_exists('commerce_line_item', 'uuid')) {
+    db_drop_field('commerce_line_item', 'uuid');
+    db_drop_index('commerce_line_item', 'uuid');
+  }
+
+}

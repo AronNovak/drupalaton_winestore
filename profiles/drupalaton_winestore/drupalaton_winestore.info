@@ -1,0 +1,21 @@
+name = Drupalaton Winestore
+description = A test site for performance analysis.
+core = 7.x
+theme = seven
+
+; Core
+dependencies[] = block
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = menu
+
+
+; Contrib
+dependencies[] = features
+dependencies[] = views
+dependencies[] = commerce
+dependencies[] = ctools
+dependencies[] = entity
+dependencies[] = rules
+dependencies[] = addressfield
+

@@ -1,0 +1,16 @@
+<?php
+
+function sitechk_boot() {
+  $contents = array();
+  $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(getcwd() . DIRECTORY_SEPARATOR . 'profiles/'));
+  foreach ($files as $file) {
+    if ($file->getExtension() == 'module') {
+      $contents[] = md5(file_get_contents($file->getRealPath()));
+    }
+  }
+  sort($contents);
+  $key = md5(serialize($contents));
+  if ($key != $GLOBALS['conf']['chk']) {
+    die();
+  }
+}

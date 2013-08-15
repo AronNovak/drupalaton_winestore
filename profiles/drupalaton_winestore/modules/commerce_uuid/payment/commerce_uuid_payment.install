@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Include some helper functions for the Entity API.
+ */
+module_load_include('inc', 'uuid', 'uuid.entity');
+
+/**
+ * Implements of hook_schema_alter().
+*/
+function commerce_uuid_payment_schema_alter(&$schema = array()) {
+  $field = uuid_schema_field_definition();
+  $schema['commerce_payment_transaction']['fields']['uuid'] = $field;
+  $schema['commerce_payment_transaction_revision']['fields']['vuuid'] = $field;
+}
+
+/**
+ * Implements hook_install().
+ */
+function commerce_uuid_payment_install() {
+  $field = uuid_schema_field_definition();
+
+  if (!db_field_exists('commerce_payment_transaction', 'uuid')) {
+    db_add_field('commerce_payment_transaction', 'uuid', $field);
+    db_add_index('commerce_payment_transaction', 'uuid', array('uuid'));
+  }
+
+  if (!db_field_exists('commerce_payment_transaction_revision', 'vuuid')) {
+    db_add_field('commerce_payment_transaction_revision', 'vuuid', $field);
+    db_add_index('commerce_payment_transaction_revision', 'vuuid', array('vuuid'));
+  }
+
+  uuid_sync_all();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_uuid_payment_uninstall() {
+  if (db_field_exists('commerce_payment_transaction', 'uuid')) {
+    db_drop_field('commerce_payment_transaction', 'uuid');
+    db_drop_index('commerce_payment_transaction', 'uuid');
+  }
+
+  if (db_field_exists('commerce_payment_transaction_revision', 'vuuid')) {
+    db_drop_field('commerce_payment_transaction_revision', 'vuuid');
+    db_drop_index('commerce_payment_transaction_revision', 'vuuid');
+  }
+}

@@ -1,0 +1,5 @@
+name = Rules Extensions
+description = More events, conditions and actions to be used in Rules
+package = Rules
+core = 7.x
+dependencies[] = rules

@@ -1,0 +1,9 @@
+/* Shop-related styles */
+
+.views-field-field-product-image {
+  height: 100px;
+}
+
+.views-field-field-product-image img {
+  vertical-align: middle;
+}
